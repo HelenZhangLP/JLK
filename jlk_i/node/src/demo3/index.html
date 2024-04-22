@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时钟</title>
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+            height: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-image: linear-gradient(green,#62ab00);
+            padding-top: 200px;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 500px;
+            height: 300px;
+            font-size: 30px;
+            margin: auto;
+            background-color: #fff;
+            /* 背景透明，字体不透明 */
+            background-color: rgba(255, 255, 255, .3);
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2 id="hour">00:</h2>
+        <h2 id="minute">00:</h2>
+        <h2 id="second">00</h2>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // 定义变量
+            let hours = 0, minutes = 0, seconds = 0
+            let date = new Date(), sBox = document.getElementById('second'), mBox = document.getElementById('minute'), hBox = document.getElementById('hour');
+
+            hours = date.getHours()
+            minutes = date.getMinutes()
+            seconds = date.getSeconds()
+
+            setInterval(function(){
+                seconds = Number(seconds) + 1; minutes = Number(minutes); hours = Number(hours)
+                // 注释：处理秒
+                if(seconds >= 60) {
+                    seconds = 0
+                    minutes += 1 
+                }
+
+                // 分钟
+                if(minutes >= 60) {
+                    minutes = 0
+                    hours += 1
+                }
+
+                // 小时
+                if(hours >= 24) {
+                    hours = 0
+                    minutes = 0
+                    seconds = 0
+                }
+                
+                /**
+                 * 时分秒小于两位数，前面补 0                
+                */
+                if (seconds < 10) {
+                    seconds = '0' + seconds
+                } 
+
+                if (minutes < 10) {
+                    minutes = '0' + minutes
+                }
+
+                if(hours < 10) {
+                    hours = '0' + hours
+                }
+
+                console.log(seconds)
+
+                // 注释：修改盒里的东西
+                hBox.innerText = hours + ':'
+                mBox.innerText = minutes + ':' 
+                sBox.innerText = seconds
+            }, 1000)
+        }
+    </script>
+</body>
+</html>

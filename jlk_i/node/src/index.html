@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="scrollbar.css">
+		<style type="text/css">
+			* {
+				padding: 0;
+				margin: 0;
+			}
+
+			body {
+				font-size: 12px;
+				padding: 20px;
+				clear: both
+			}
+
+			ol {
+				padding-left: 25px;
+			}
+
+			h3,
+			h4 {
+				display: inline;
+			}
+
+			h3 {
+				font-size: 15px;
+				line-height: 22px;
+			}
+
+			.fl {
+				float: left;
+			}
+
+			#outer {
+				width: 30%;
+				height: 450px;
+				padding: 10px;
+				background-color: brown;
+				clear: both;
+				/* box-sizing: border-box; */
+
+				font-size: 13px;
+				line-height: 22px;
+
+				position: sticky;
+				float: left;
+			}
+
+			.inner {
+				background-color: darkolivegreen;
+				width: 300px;
+				height: 80px;
+				border: solid 10px teal;
+				/* border 默认颜色是 #fff */
+				padding: 10px;
+				margin: 10px 0 0 20px;
+
+				color: #fff;
+
+				/* box-sizing: border-box; */
+				/* display: none; // 设置为 none，offsetParent 为 null */
+				/* position: fixed; // 设置为 fixed，offsetParent 为 null */
+			}
+
+			#inner1 {
+				position: relative;
+				top: 10px;
+				left: 5px;
+				/* 不设置默认为 0 */
+			}
+
+			#inner2 {
+				overflow: scroll;
+				margin-left: 25px;
+				margin-top: 20px;
+			}
+
+			#inner3 {
+				overflow-x: scroll;
+				white-space: nowrap;
+				margin-left: 25px;
+			}
+
+			.showCase {
+				width: 560px;
+				font-size: 14px;
+				background-color: powderblue;
+
+				margin-left: 10px;
+				padding: 10px;
+
+				margin-bottom: 10px;
+			}
+
+			.showCase p {
+				line-height: 22px;
+			}
+
+			.mb-5 {
+				margin-bottom: 5px;
+			}
+
+			.notice {
+				color: #a33;
+			}
+		</style>
+	</head>
+	<body>
+		<h2>影响重排、重绘的属性</h2>
+		<p class="mb-5">inner.offsetParent 默认是 `&lt;body&gt;...&lt;/body&gt;`，div#outer 元素设置为定位元素 position:
+			sticky，inner.offsetParent 为
+			div#outer，相对于 div#outer 定位，布局
+		</p>
+		<div id="outer">
+			<div style="line-height: 25px;">
+				<h3>outer:</h3> position: sticky; margin-top: 10px; padding: 10px; line-height: 25px;
+			</div>
+			<div class="inner" id="inner1">
+				<h3>inner1:</h3> margin-top: 10px; position: relative; top: 10px; left: 5px; padding: 10px;
+				border-width:
+				10px;
+				width: 300px; height: 80px
+			</div>
+			<div class="inner" id="inner2">
+				<h3>inner2:</h3> width: 300px; height: 80px; padding: 10px; overflow-y: scroll;
+				transform: translate(5px);width: 300px; height: 80px; padding: 10px; overflow-y: scroll;
+				transform: translate(5px);width: 300px; height: 80px; padding: 10px; overflow-y: scroll;
+				transform: translate(5px);width: 300px; height: 80px; padding: 10px; overflow-y: scroll;
+				transform: translate(5px);
+			</div>
+			<div class="inner" id="inner3">
+				<h3>inner:</h3> margin: 20px; position: relative; top: 20; left: 5px; padding: 10px; border-width: 10px;
+				width: 300px;
+			</div>
+		</div>
+
+		<div class="fl">
+			<div class="showCase">
+				<h4 class="notice">offsetTop、offsetLeft 决定元素在页面中的位置</h4>
+				<p>
+				<h4>offsetTop</h4> = inner/marginTop(10) + inner/top(10) + outer/paddingTop(10) +
+				outer/LineHeight(25) *
+				n(行数) = <span id="offsetTop"></span></p>
+				<p>
+				<h4>offsetLeft</h4> = inner/marginLeft(20) + inner/left(5) + outer/paddingLeft(10) = <span
+					id="offsetLeft"></span>
+				</p>
+				<h4 class="notice">offsetWidth、offsetHeight 决定元素在页面中大小</h4>
+				<p>
+				<h4>offsetWidth</h4> = inner/width(300) + inner/paddingLeft(10) + inner/paddingRight(10) +
+				inner/boderLeftWidth(10) +
+				inner/borderRightWidth(10) = <span id='offsetWidth'></span></p>
+				<p>
+				<h4>offsetHeight</h4> = inner/height(80) + inner/paddingTop(10) + inner/paddingBottom(10) +
+				inner/boderTopWidth(10) +
+				inner/borderBottomWidth(10) = <span id='offsetHeight'></span></p>
+			</div>
+			<div class="showCase">
+				<h4 class="notice">clientWidth/clientHeight 元素内部，不包括滚动条宽或高的大小</h4>
+				<p>
+				<h4>clientWidth</h4> = inner/width(300) - scrollbarWidth(8) + inner/paddingLeft(10) +
+				inner/paddingRight(10)=
+				<span id="clientWidth"></span>
+				</p>
+				<p>
+				<h4>clientHeight</h4> = inner/Height(80) + inner/paddingTop(10) + inner/paddingBottom(10) -
+				scrollbarHeight(5) =
+				<span id="clientHeight"></span></p>
+				<h4 class="notice">clientTop/clientLeft 上边框与左边框占的位置</h4>
+				<p>
+				<h4>clientTop</h4> = inner/borderTopWidth = <span id="clientTop"></span>
+				</p>
+				<p>
+				<h4>clientLeft</h4> = inner/borderLeftWidth = <span id="clientLeft"></span>
+				</p>
+			</div>
+			<div class="showCase">
+				<h4 class="notice">scrollTop/scrollLeft 设置或获取滚动位置， set inner2.scrollTop = 13px; set inner3.scrollLeft=13
+				</h4>
+				<p>
+				<h4>scrollTop</h4> = <span id="scrollTop"></span></p>
+				<p>
+				<h4>scrollLeft</h4> = <span id="scrollLeft"></span></p>
+				<h4 class="notice">scrollWidth/scrollHeight 获取包括 overfllow 隐藏的内容的所有内容的宽高</h4>
+				<p>
+				<h4>scrollWidth</h4> =
+				<span id="scrollWidth"></span>
+				</p>
+				<p>
+				<h4>scrollHeight</h4> = <span id="scrollHeight"></span></p>
+			</div>
+			<!-- <div class="showCase">
+				<h3>note:</h3>
+				<ol>
+					<li>position 与 overflow，不能同时存在</li>
+					<li>相邻元素，上一个元素 `position: relative`，不会脱离文档流，在文档中会占 `relativeDom` 宽度/高度，但 top
+						位移的高度，不会进行位置计算。所以下一个元素如果想用
+						margin-top 留间距时，需要加入 `top: Npx`</li>
+				</ol>
+			</div> -->
+			<span id='test'></span>
+		</div>
+		<script src="./index.js"></script>
+		<script type="text/javascript">
+			const inner = document.getElementById('inner1')
+			const inner2 = document.getElementById('inner2')
+			const inner3 = document.getElementById('inner3')
+			const offsetTop = document.getElementById('offsetTop')
+			const offsetLeft = document.getElementById('offsetLeft')
+			const offsetWidth = document.getElementById('offsetWidth')
+			const offsetHeight = document.getElementById('offsetHeight')
+			const clineWidth = document.getElementById('clientWidth')
+			const clineHeight = document.getElementById('clineHeight')
+			const clientTop = document.getElementById('clientTop')
+			const clientLeft = document.getElementById('clientLeft')
+			const scrollTop = document.getElementById('scrollTop')
+			const scrollLeft = document.getElementById('scrollLeft')
+			const scrollWidth = document.getElementById('scrollWidth')
+			const scrollHeight = document.getElementById('scrollHeight')
+			offsetTop.innerText = inner.offsetTop + 'px'
+			offsetLeft.innerHTML = inner.offsetLeft + 'px'
+			offsetWidth.innerHTML = inner.offsetWidth + 'px'
+			offsetHeight.innerHTML = inner.offsetHeight + 'px'
+			clineWidth.innerText = inner2.clientWidth + 'px'
+			clientHeight.innerText = inner2.clientHeight + 'px'
+			clientTop.innerText = inner2.clientTop + 'px'
+			clientLeft.innerText = inner2.clientLeft + 'px'
+			inner2.scrollTop = 13
+			inner3.scrollLeft = 13
+			scrollTop.innerText = inner2.scrollTop + 'px'
+			scrollLeft.innerText = inner3.scrollLeft + 'px'
+			scrollWidth.innerText = inner3.scrollWidth + 'px'
+			scrollHeight.innerText = inner2.scrollHeight + 'px'
+			console.log(inner2.scrollHeight)
+			console.log(inner2.scrollWidth)
+		</script>
+	</body>
+</html>

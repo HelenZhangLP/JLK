@@ -1,0 +1,15 @@
+{
+  "name": "demo5",
+  "version": "1.0.0",
+  "description": "CommonJs 中，模块分为三类：内置模块、自定义模块、第三模块（即包） ### 包的来源 第三方团队或个人开发出来的，免费供所有人使用 ### 包的优势 NodeJs 内置模块提供了一些底层 API，导致内置模块进行项目开发时，效率低。<b>使用第三方包提高开发效率</b> <u>包是基于内置模块封装出来的</u>，提供了一些更高级、更方便的 API，极大的提高了开发效率。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.29.4"
+  }
+}
